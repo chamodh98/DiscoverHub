@@ -38,13 +38,13 @@ struct NewsView: View {
                         .padding(.trailing, 4)
                     }
                     .listStyle(PlainListStyle())
+                    .scrollDismissesKeyboard(.immediately)
                 }
             }
             .navigationTitle("News")
             .task {
                 await vm.loadTopHeadlines()
             }
-            .hideKeyBoardOnTap()
         }
         
     }
