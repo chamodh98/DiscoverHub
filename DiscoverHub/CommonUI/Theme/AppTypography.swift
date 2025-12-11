@@ -35,7 +35,7 @@ enum AppTypography {
 }
 
 extension View {
-    func tttleStyle() -> some View {
+    func titleStyle() -> some View {
         self.modifier(AppTypography.Title())
     }
     
