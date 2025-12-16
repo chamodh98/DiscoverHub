@@ -15,10 +15,12 @@ class NewsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    private var service = NewsService()
+    private var service: NewsServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    init(service: NewsServiceProtocol = NewsService()) {
+        self.service = service
+        
         // Observe searchQuery with debounce using Combine
         $searchQuery
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
