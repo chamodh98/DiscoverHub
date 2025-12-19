@@ -12,7 +12,7 @@ struct AppTabView: View {
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            UIColor(AppColors.primaty).cgColor,
+            UIColor(AppColors.primary).cgColor,
             UIColor(AppColors.secondary).cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum AppColors {
-    static let primaty = Color("PrimaryColor")
+    static let primary = Color("PrimaryColor")
     static let secondary = Color("SecondaryColor")
     static let cardBackground = Color("CardBackgroundColor")
     
