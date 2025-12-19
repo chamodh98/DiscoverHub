@@ -36,8 +36,10 @@ struct NewsView: View {
                         .listRowInsets(EdgeInsets())
                         .padding(.vertical, 4)
                         .padding(.trailing, 4)
+                        .listRowSeparator(.hidden)
                     }
-                    .listStyle(PlainListStyle())
+                    .padding(.horizontal, AppSpacing.md)
+                    .listStyle(.plain)
                     .scrollDismissesKeyboard(.immediately)
                 }
             }
@@ -84,7 +86,9 @@ struct NewsRow: View {
                 }
             }
         }
-        .padding(.horizontal, AppSpacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(16)
     }
 }
 

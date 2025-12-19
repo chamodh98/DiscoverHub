@@ -16,9 +16,15 @@ struct AppCard<Content: View>: View {
     
     var body: some View {
         content
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(AppSpacing.md)
             .background(AppColors.cardBackground)
             .cornerRadius(16)
             .appShadow(AppShadows.card)
+            .shadow(radius: 3)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.primary.opacity(0.1), lineWidth: 1)
+            )
     }
 }
