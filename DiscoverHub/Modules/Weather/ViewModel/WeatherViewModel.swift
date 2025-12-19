@@ -25,7 +25,7 @@ final class WeatherViewModel: ObservableObject {
         
         do {
             let response = try await service.fetchWeather()
-            self.weather = response.current_weather
+            self.weather = response.currentWeather
         } catch {
             self.errorMessage = error.localizedDescription
         }

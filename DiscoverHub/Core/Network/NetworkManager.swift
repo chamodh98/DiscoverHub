@@ -23,6 +23,14 @@ final class NetworkManager: APIClient {
             throw NetworkError.apiError(http.statusCode)
         }
         
-        return try JSONDecoder().decode(T.self, from: data)
+        print(String(data: data, encoding: .utf8) ?? "No response body")
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            print("Decoding failed: ", error)
+            throw NetworkError.decodingError(error)
+        }
     }
 }

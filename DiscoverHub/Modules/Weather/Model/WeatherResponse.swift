@@ -8,7 +8,7 @@
 import Foundation
 
 struct WeatherResponse: Decodable {
-    let current_weather: CurrentWeather
+    let currentWeather: CurrentWeather?
 }
 
 struct CurrentWeather: Decodable {
