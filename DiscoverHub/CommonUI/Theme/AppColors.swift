@@ -11,6 +11,7 @@ enum AppColors {
     static let primary = Color("PrimaryColor")
     static let secondary = Color("SecondaryColor")
     static let cardBackground = Color("CardBackgroundColor")
+    static let background = Color("BackgroundColor")
     
     static let textPrimary = Color.primary
     static let textSecondary = Color.secondary
