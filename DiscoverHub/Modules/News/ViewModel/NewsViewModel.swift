@@ -12,7 +12,7 @@ import Combine
 class NewsViewModel: ObservableObject {
     @Published var articles: [NewsArticle] = []
     @Published var searchQuery: String = ""
-    @Published var isLoading: Bool = false
+    @Published var isLoading: Bool = true
     @Published var errorMessage: String? = nil
     
     private var service: NewsServiceProtocol

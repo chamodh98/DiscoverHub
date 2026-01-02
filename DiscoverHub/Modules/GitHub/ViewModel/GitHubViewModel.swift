@@ -13,7 +13,7 @@ import Combine
 final class GitHubViewModel: ObservableObject {
     @Published var repositories: [GitHubRepo] = []
     @Published var searchText: String = "swiftui"
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var errorMessage: String?
     
     // Combine Inputs
