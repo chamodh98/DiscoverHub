@@ -34,9 +34,7 @@ struct NewsView: View {
                     ErrorStateView(
                         errorMessage: err,
                         retryAction: {
-                            Task {
-                                await vm.loadTopHeadlines()
-                            }
+                            vm.refresh()
                         }
                     )
                 } else if vm.articles.isEmpty {
@@ -73,16 +71,18 @@ struct NewsView: View {
                     .listStyle(.plain)
                     .scrollDismissesKeyboard(.immediately)
                     .refreshable {
-                        await vm.loadTopHeadlines()
+                        vm.refresh()
                     }
                 }
             }
             .navigationTitle("News")
-            .task {
-                await vm.loadTopHeadlines()
-            }
             .onAppear {
-                vm.searchQuery = ""
+                if vm.articles.isEmpty && vm.searchQuery.isEmpty {
+                     // Initial load handled by VM init pipeline, but if returning from detail, no action needed?
+                     // Actually, VM init runs once. If View is popped and kept, it's fine.
+                     // But if we want to ensure search is cleared:
+                     vm.searchQuery = ""
+                }
             }
         }
     }
@@ -439,18 +439,6 @@ struct NewsDetailView: View {
                         .padding(.vertical, 14)
                         .background(AppColors.primary)
                         .cornerRadius(12)
-                    }
-                    .padding(.top, AppSpacing.lg)
-                    
-                    // Related Articles Placeholder
-                    VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                        Text("Related Articles")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                        
-                        Text("Coming soon...")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
                     }
                     .padding(.top, AppSpacing.lg)
                 }

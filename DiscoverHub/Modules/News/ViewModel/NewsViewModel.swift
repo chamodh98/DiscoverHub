@@ -18,15 +18,27 @@ class NewsViewModel: ObservableObject {
     private var service: NewsServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
+    // Refresh Trigger
+    let refreshTrigger = PassthroughSubject<Void, Never>()
+    
     init(service: NewsServiceProtocol = NewsService()) {
         self.service = service
         
-        // Observe searchQuery with debounce using Combine
-        $searchQuery
+        // Unified Pipeline: Merge Search and Refresh
+        let searchInput = $searchQuery
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .removeDuplicates()
+        
+        let refreshInput = refreshTrigger
+            .map { [unowned self] in self.searchQuery }
+        
+        Publishers.Merge(searchInput, refreshInput)
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.isLoading = true
+                self?.errorMessage = nil
+            })
             .sink { [weak self] q in
-                Task {
+                Task { [weak self] in
                     if q.isEmpty {
                         await self?.loadTopHeadlines()
                     } else {
@@ -37,27 +49,27 @@ class NewsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func loadTopHeadlines() async {
-        isLoading = true
-        errorMessage = nil
+    private func loadTopHeadlines() async {
         do {
             let result = try await service.fetchTopHeadlines()
-            articles = result
+            self.articles = result
         } catch {
-            errorMessage = error.localizedDescription
+            self.errorMessage = error.localizedDescription
         }
-        isLoading = false
+        self.isLoading = false
     }
     
-    func search(_ q: String) async {
-        isLoading = true
-        errorMessage = nil
+    private func search(_ q: String) async {
         do {
             let result = try await service.searchNews(query: q)
-            articles = result
+            self.articles = result
         } catch {
-            errorMessage = error.localizedDescription
+            self.errorMessage = error.localizedDescription
         }
-        isLoading = false
+        self.isLoading = false
+    }
+    
+    func refresh() {
+        refreshTrigger.send()
     }
 }
