@@ -9,16 +9,11 @@ import SwiftUI
 
 struct GitHubView: View {
     @StateObject private var viewModel = GitHubViewModel()
-    @Environment(\.colorScheme) var colorScheme
     @FocusState private var isSearchFocused: Bool
     
     var body: some View {
         NavigationStack {
             ZStack {
-                // Adaptive background
-                (colorScheme == .dark ? Color.black : Color(.systemGroupedBackground))
-                    .ignoresSafeArea()
-                
                 VStack(spacing: 0) {
                     EnhancedSearchBar(searchQuery: $viewModel.searchText)
                         .padding(.horizontal, 16)
