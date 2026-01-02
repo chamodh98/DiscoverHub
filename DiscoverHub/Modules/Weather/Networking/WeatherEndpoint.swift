@@ -16,7 +16,7 @@ enum WeatherEndpoint {
             query: [
                 "latitude": "6.9271",
                 "longitude": "79.8612",
-                "current_weather": "true"
+                "current": "temperature_2m,wind_speed_10m,relative_humidity_2m,surface_pressure,weather_code"
             ],
             headers: nil
         )
