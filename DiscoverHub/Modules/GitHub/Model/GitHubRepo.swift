@@ -10,9 +10,9 @@ import Foundation
 struct GitHubRepo: Identifiable, Decodable {
     let id: Int
     let name: String
-    let fullName: String
+    let fullName: String?
     let description: String?
     let stargazersCount: Int
     let language: String?
-    let htmlURL: String?
+    let htmlUrl: String?
 }
