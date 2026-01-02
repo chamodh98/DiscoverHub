@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 final class WeatherViewModel: ObservableObject {
@@ -13,23 +14,42 @@ final class WeatherViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
+    let loadTrigger = PassthroughSubject<Void, Never>()
+    private var cancellables = Set<AnyCancellable>()
+    
     private let service: WeatherServiceProtocol
     
     init(service: WeatherServiceProtocol = WeatherService()) {
         self.service = service
+        setupPipeline()
     }
     
-    func loadWeather() async {
-        isLoading = true
-        errorMessage = nil
-        
+    private func setupPipeline() {
+        loadTrigger
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.isLoading = true
+                self?.errorMessage = nil
+            })
+            .sink { [weak self] _ in
+                Task { [weak self] in
+                    await self?.fetchWeather()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func fetchWeather() async {
         do {
             let response = try await service.fetchWeather()
             self.weather = response.current
         } catch {
             self.errorMessage = error.localizedDescription
         }
-        
-        isLoading = false
+        self.isLoading = false
+    }
+    
+    // Public trigger
+    func loadWeather() {
+        loadTrigger.send()
     }
 }

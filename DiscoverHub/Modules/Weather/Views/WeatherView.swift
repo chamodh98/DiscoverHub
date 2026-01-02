@@ -21,12 +21,11 @@ struct WeatherView: View {
                 content
             }
             .navigationTitle("Weather")
-            .navigationBarTitleDisplayMode(.inline)
             .task {
-                await viewModel.loadWeather()
+                viewModel.loadWeather()
             }
             .refreshable {
-                await viewModel.loadWeather()
+                viewModel.loadWeather()
             }
         }
     }
@@ -39,7 +38,7 @@ struct WeatherView: View {
             ErrorStateView(
                 errorMessage: error,
                 retryAction: {
-                    Task { await viewModel.loadWeather() }
+                    viewModel.loadWeather()
                 }
             )
         } else if let weather = viewModel.weather {
@@ -99,7 +98,7 @@ struct WeatherView: View {
                 title: "No Weather Data",
                 message: "Unable to load weather information.",
                 actionTitle: "Reload",
-                action: { Task { await viewModel.loadWeather() } }
+                action: { viewModel.loadWeather() }
             )
         }
     }
