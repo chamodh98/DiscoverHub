@@ -408,7 +408,7 @@ struct NewsDetailView: View {
                     .padding(.top, AppSpacing.lg)
                 }
                 .padding(AppSpacing.md)
-                .padding(.bottom, 100) // Clear custom tab bar
+                .padding(.bottom, 100) 
             }
         }
         .padding(.top, 10)
