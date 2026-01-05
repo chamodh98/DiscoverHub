@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 final class CurrencyViewModel: ObservableObject {
@@ -18,64 +19,69 @@ final class CurrencyViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let service: CurrencyServiceProtocol
+    private var cancellables = Set<AnyCancellable>()
     
     init(service: CurrencyServiceProtocol = CurrencyService()) {
         self.service = service
+        setupPipeline()
     }
     
-    // MARK: - Validation
+    private func setupPipeline() {
+        // Combine inputs: Amount, From, To
+        Publishers.CombineLatest3($amount, $fromCurrency, $toCurrency)
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .removeDuplicates { prev, curr in
+                prev.0 == curr.0 && prev.1 == curr.1 && prev.2 == curr.2
+            }
+            .sink { [weak self] (amt, from, to) in
+                self?.handleInput(amount: amt, from: from, to: to)
+            }
+            .store(in: &cancellables)
+    }
     
-    var isAmountValid: Bool {
-        guard let value = Double(amount), value > 0 else {
-            return false
+    private func handleInput(amount: String, from: Currency, to: Currency) {
+        guard !amount.isEmpty, let value = Double(amount), value > 0 else {
+            self.convertedAmount = nil
+            self.errorMessage = nil
+            self.isLoading = false
+            return
         }
-        return true
+        
+        guard from != to else {
+            self.convertedAmount = String(format: "%.2f %@", value, to.rawValue)
+            self.errorMessage = nil
+            self.isLoading = false
+            return
+        }
+        
+        // Trigger conversion
+        Task {
+            await self.convert(amount: amount, from: from, to: to)
+        }
     }
     
-    var isCurrencySelectionValid: Bool {
-        fromCurrency != toCurrency
+    private func convert(amount: String, from: Currency, to: Currency) async {
+        self.isLoading = true
+        self.errorMessage = nil
+        
+        do {
+            let result = try await service.convert(
+                from: from,
+                to: to,
+                amount: amount
+            )
+            
+            self.convertedAmount = String(
+                format: "%.2f %@", result, to.rawValue
+            )
+        } catch {
+            self.errorMessage = "Conversion failed. Please try again."
+        }
+        
+        self.isLoading = false
     }
-    
-    var canConvert: Bool {
-        isAmountValid && isCurrencySelectionValid && !isLoading
-    }
-    
-    // MARK: - Actions
     
     func swapCurrencies() {
         (fromCurrency, toCurrency) = (toCurrency, fromCurrency)
-    }
-    
-    func convert() {
-        guard !amount.isEmpty else { return }
-        
-        Task {
-            isLoading = true
-            errorMessage = nil
-            
-            do {
-                let result = try await service.convert(
-                    from: fromCurrency,
-                    to: toCurrency,
-                    amount: amount
-                )
-                
-                convertedAmount = String(
-                    format: "%.2f %@", result, toCurrency.rawValue
-                )
-            } catch {
-                errorMessage = "Conversion failed"
-            }
-            
-            isLoading = false
-        }
-    }
-    
-    private func setValidationError() {
-        if !isAmountValid {
-            errorMessage = "Please enter a valid amount"
-        } else if !isCurrencySelectionValid {
-            errorMessage = "From and To currencies must be different"
-        }
     }
 }

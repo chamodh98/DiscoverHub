@@ -10,152 +10,120 @@ import SwiftUI
 struct CurrencyView: View {
     
     @StateObject private var viewModel = CurrencyViewModel()
-    @FocusState private var amountIsForcus: Bool
+    @FocusState private var isAmountFocused: Bool
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                
-                Text("Currency Converter")
-                    .font(.largeTitle.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                // Amount Input
-                amountInputCard
-                
-                // Currency Selection
-                currencySelectionCard
-                
-                // Convert Button
-                convertButton
-                
-                if viewModel.isLoading {
-                    ProgressView()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: AppSpacing.lg) {
+                    
+                    // Input Section
+                    VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                        Text("Amount")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 4)
+                        
+                        AppCard {
+                            HStack {
+                                Text(viewModel.fromCurrency.rawValue)
+                                    .font(.title2.bold())
+                                    .foregroundColor(.secondary)
+                                
+                                TextField("0.00", text: $viewModel.amount)
+                                    .focused($isAmountFocused)
+                                    .keyboardType(.decimalPad)
+                                    .font(.system(size: 32, weight: .bold))
+                                    .multilineTextAlignment(.trailing)
+                                    .foregroundColor(AppColors.textPrimary)
+                            }
+                        }
+                    }
+                    
+                    // Currency Selection
+                    ZStack {
+                        VStack(spacing: AppSpacing.md) {
+                            CurrencyPickerRow(title: "From", selection: $viewModel.fromCurrency)
+                            CurrencyPickerRow(title: "To", selection: $viewModel.toCurrency)
+                        }
+                        
+                        // Swap Button Overlay
+                        Button {
+                            withAnimation(.spring()) {
+                                viewModel.swapCurrencies()
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(width: 44, height: 44)
+                                .background(AppColors.primary)
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color(uiColor: .systemBackground), lineWidth: 4)
+                                )
+                        }
+                    }
+                    
+                    // Result Section
+                    if viewModel.isLoading {
+                        AppCard {
+                            VStack(spacing: 8) {
+                                SkeletonView()
+                                    .frame(height: 16)
+                                    .frame(width: 100)
+                                SkeletonView()
+                                    .frame(height: 40)
+                                    .frame(width: 200)
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                    } else if let result = viewModel.convertedAmount {
+                        AppCard {
+                            VStack(spacing: 8) {
+                                Text("\(viewModel.toCurrency.name)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                
+                                Text(result)
+                                    .font(.system(size: 40, weight: .bold))
+                                    .foregroundColor(AppColors.primary)
+                                    .minimumScaleFactor(0.5)
+                                    .lineLimit(1)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, AppSpacing.sm)
+                        }
+                        .transition(.scale.combined(with: .opacity))
+                    } else if let error = viewModel.errorMessage {
+                        ErrorStateView(errorMessage: error, retryAction: {})
+                    }
+                    
+                    Spacer()
                 }
-                
-                // Result
-                if let result = viewModel.convertedAmount {
-                    resultCard(result: result)
+                .padding(AppSpacing.md)
+            }
+            .scrollDismissesKeyboard(.interactively)
+            .background(colorScheme == .dark ? Color.black : Color(.systemGroupedBackground))
+            .onTapGesture {
+                isAmountFocused = false
+            }
+            .navigationTitle("Converter")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        isAmountFocused = false
+                    }
                 }
-                
-                if let error = viewModel.errorMessage {
-                    Text(error)
-                        .foregroundColor(.red)
-                }
-                
-                Spacer()
-            }
-            .padding()
-            .onChange(of: viewModel.amount) { _ in
-                viewModel.convertedAmount = nil
-            }
-            .onChange(of: viewModel.fromCurrency) { _ in
-                viewModel.convertedAmount = nil
-            }
-            .onChange(of: viewModel.toCurrency) { _ in
-                viewModel.convertedAmount = nil
             }
         }
-        .background(AppColors.background)
     }
 }
 
 #Preview {
     CurrencyView()
-}
-
-private extension CurrencyView {
-    var amountInputCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Amount")
-                .font(.headline)
-            
-            TextField("Enter amount", text: $viewModel.amount)
-                .focused($amountIsForcus)
-                .keyboardType(.decimalPad)
-                .font(.title2)
-                .padding()
-                .background(AppColors.cardBackground)
-                .cornerRadius(12)
-        }
-    }
-}
-
-
-private extension CurrencyView {
-    var currencySelectionCard: some View {
-        VStack(spacing: 16) {
-            
-            CurrencyPickerRow(
-                title: "From",
-                selection: $viewModel.fromCurrency
-            )
-            
-            Button {
-                viewModel.swapCurrencies()
-            } label: {
-                Image(systemName: "arrow.up.arrow.down")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(AppColors.primary)
-                    .clipShape(Circle())
-            }
-            
-            CurrencyPickerRow(
-                title: "To",
-                selection: $viewModel.toCurrency
-            )
-        }
-        .padding()
-        .background(AppColors.cardBackground)
-        .cornerRadius(16)
-    }
-}
-
-
-private extension CurrencyView {
-    var convertButton: some View {
-        Button {
-            viewModel.convert()
-            amountIsForcus = false
-        } label: {
-            Text("Convert")
-                .font(.headline)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    LinearGradient(
-                        colors: viewModel.canConvert
-                        ? [AppColors.primary, AppColors.secondary]
-                        : [Color.gray.opacity(0.4), Color.gray.opacity(0.4)],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .foregroundColor(.white)
-                .cornerRadius(14)
-        }
-        .disabled(!viewModel.canConvert)
-        .animation(.easeInOut, value: viewModel.canConvert)
-    }
-}
-
-
-private extension CurrencyView {
-    func resultCard(result: String) -> some View {
-        VStack(spacing: 8) {
-            Text("Convert Amount")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            
-            Text(result)
-                .font(.largeTitle.bold())
-                .foregroundColor(AppColors.primary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(AppColors.cardBackground)
-        .cornerRadius(16)
-    }
 }

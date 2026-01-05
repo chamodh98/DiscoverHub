@@ -12,21 +12,22 @@ struct CurrencyPickerRow: View {
     @Binding var selection: Currency
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            
-            Picker(title, selection: $selection) {
-                ForEach(Currency.allCases) {
-                    Text("\($0.rawValue) - \($0.name)")
-                        .tag($0)
+        AppCard {
+            VStack(alignment: .leading) {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Picker(title, selection: $selection) {
+                    ForEach(Currency.allCases) {
+                        Text("\($0.rawValue) - \($0.name)")
+                            .tag($0)
+                    }
                 }
+                .pickerStyle(.menu)
+                .labelsHidden() // Hide default label 
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .pickerStyle(.menu)
-            .padding()
-            .background(AppColors.cardBackground)
-            .cornerRadius(12)
         }
     }
 }
