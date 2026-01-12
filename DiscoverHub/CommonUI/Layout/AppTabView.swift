@@ -16,7 +16,7 @@ struct AppTabView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView()
+                    HomeView(selectedTab: $selectedTab)
                 case .news:
                     NewsView()
                 case .weather:

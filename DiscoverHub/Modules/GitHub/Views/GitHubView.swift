@@ -55,7 +55,7 @@ struct GitHubView: View {
                 }
             }
             .navigationTitle("GitHub")
-
+            .padding(.bottom, 90)
         }
     }
 }

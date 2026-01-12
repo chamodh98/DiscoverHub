@@ -120,6 +120,7 @@ struct CurrencyView: View {
                     }
                 }
             }
+            .padding(.bottom, 40)
         }
     }
 }

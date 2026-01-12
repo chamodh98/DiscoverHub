@@ -28,6 +28,7 @@ struct WeatherView: View {
                 viewModel.loadWeather()
             }
         }
+        .padding(.bottom, 40)
     }
     
     @ViewBuilder

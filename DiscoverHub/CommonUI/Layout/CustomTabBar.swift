@@ -9,18 +9,18 @@ import SwiftUI
 
 enum Tab: String, CaseIterable {
     case home = "Home"
-    case news = "News"
     case weather = "Weather"
-    case github = "GitHub"
+    case news = "News"
     case currency = "Currency"
+    case github = "GitHub"
     
     var icon: String {
         switch self {
         case .home: return "house.fill"
-        case .news: return "newspaper.fill"
         case .weather: return "sun.max.fill"
-        case .github: return "chevron.left.slash.chevron.right"
+        case .news: return "newspaper.fill"
         case .currency: return "dollarsign.circle.fill"
+        case .github: return "chevron.left.slash.chevron.right"
         }
     }
 }
@@ -52,8 +52,8 @@ struct CustomTabBar: View {
                     .background(
                         ZStack {
                             if selectedTab == tab {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(AppColors.primary.opacity(0.3)) // Subtle highlight
+                                RoundedRectangle(cornerRadius: 22)
+                                    .fill(AppColors.secondary.opacity(0.3))
                                     .matchedGeometryEffect(id: "TabHighlight", in: animation)
                             }
                         }

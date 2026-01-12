@@ -84,6 +84,7 @@ struct NewsView: View {
                      vm.searchQuery = ""
                 }
             }
+            .padding(.bottom, 90)
         }
     }
 }
