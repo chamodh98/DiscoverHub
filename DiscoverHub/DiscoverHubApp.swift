@@ -11,7 +11,7 @@ import SwiftUI
 struct DiscoverHubApp: App {
     var body: some Scene {
         WindowGroup {
-            AppTabView()
+            RootView()
         }
     }
 }
