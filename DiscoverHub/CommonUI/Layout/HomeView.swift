@@ -231,9 +231,9 @@ struct HomeView: View {
                             .padding(.top, 4)
                         
                         HStack(spacing: 16) {
-                            quickCurrencyBadge(currency: "EUR", rate: "0.92")
-                            quickCurrencyBadge(currency: "GBP", rate: "0.79")
-                            quickCurrencyBadge(currency: "JPY", rate: "149.50")
+                            quickCurrencyBadge(currency: "CNY", rate: viewModel.cnyRate)
+                            quickCurrencyBadge(currency: "GBP", rate: viewModel.gbpRate)
+                            quickCurrencyBadge(currency: "JPY", rate: viewModel.jpyRate)
                         }
                     }
                 }

@@ -23,7 +23,6 @@ struct Endpoint {
             components.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
         }
         
-        
         guard let url = components.url else {
             throw NetworkError.invalidURL
         }
@@ -33,6 +32,8 @@ struct Endpoint {
         
         headers?.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
         
+        print("URL: \(baseURL + path)")
+        print("query: \(query)")
         return request
     }
 }

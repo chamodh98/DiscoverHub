@@ -6,19 +6,73 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		847561C62F158CC000AD6DB9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 849DDDE12EE0B448008DD684 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849DDDE82EE0B448008DD684;
+			remoteInfo = DiscoverHub;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		847561C22F158CC000AD6DB9 /* DiscoverHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscoverHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		849DDDE92EE0B448008DD684 /* DiscoverHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscoverHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		847561CD2F158D4000AD6DB9 /* Exceptions for "DiscoverHub" folder in "DiscoverHub" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Tests/Fixtures/TestFixtures.swift,
+				Tests/Mocks/MockGitHubService.swift,
+				Tests/Mocks/MockNewsService.swift,
+				Tests/Mocks/MockWeatherService.swift,
+				Tests/ViewModels/HomeViewModelTests.swift,
+				Tests/ViewModels/NewsViewModelTests.swift,
+			);
+			target = 849DDDE82EE0B448008DD684 /* DiscoverHub */;
+		};
+		847561CE2F158D4000AD6DB9 /* Exceptions for "DiscoverHub" folder in "DiscoverHubTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Tests/Fixtures/TestFixtures.swift,
+				Tests/Mocks/MockGitHubService.swift,
+				Tests/Mocks/MockNewsService.swift,
+				Tests/Mocks/MockWeatherService.swift,
+				Tests/ViewModels/HomeViewModelTests.swift,
+				Tests/ViewModels/NewsViewModelTests.swift,
+			);
+			target = 847561C12F158CC000AD6DB9 /* DiscoverHubTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		847561C32F158CC000AD6DB9 /* DiscoverHubTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DiscoverHubTests;
+			sourceTree = "<group>";
+		};
 		849DDDEB2EE0B448008DD684 /* DiscoverHub */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				847561CD2F158D4000AD6DB9 /* Exceptions for "DiscoverHub" folder in "DiscoverHub" target */,
+				847561CE2F158D4000AD6DB9 /* Exceptions for "DiscoverHub" folder in "DiscoverHubTests" target */,
+			);
 			path = DiscoverHub;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		847561BF2F158CC000AD6DB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		849DDDE62EE0B448008DD684 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				849DDDEB2EE0B448008DD684 /* DiscoverHub */,
+				847561C32F158CC000AD6DB9 /* DiscoverHubTests */,
 				849DDDEA2EE0B448008DD684 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				849DDDE92EE0B448008DD684 /* DiscoverHub.app */,
+				847561C22F158CC000AD6DB9 /* DiscoverHubTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +104,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		847561C12F158CC000AD6DB9 /* DiscoverHubTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 847561C82F158CC000AD6DB9 /* Build configuration list for PBXNativeTarget "DiscoverHubTests" */;
+			buildPhases = (
+				847561BE2F158CC000AD6DB9 /* Sources */,
+				847561BF2F158CC000AD6DB9 /* Frameworks */,
+				847561C02F158CC000AD6DB9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				847561C72F158CC000AD6DB9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				847561C32F158CC000AD6DB9 /* DiscoverHubTests */,
+			);
+			name = DiscoverHubTests;
+			packageProductDependencies = (
+			);
+			productName = DiscoverHubTests;
+			productReference = 847561C22F158CC000AD6DB9 /* DiscoverHubTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		849DDDE82EE0B448008DD684 /* DiscoverHub */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 849DDDF42EE0B44A008DD684 /* Build configuration list for PBXNativeTarget "DiscoverHub" */;
@@ -80,6 +159,10 @@
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					847561C12F158CC000AD6DB9 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 849DDDE82EE0B448008DD684;
+					};
 					849DDDE82EE0B448008DD684 = {
 						CreatedOnToolsVersion = 16.3;
 					};
@@ -100,11 +183,19 @@
 			projectRoot = "";
 			targets = (
 				849DDDE82EE0B448008DD684 /* DiscoverHub */,
+				847561C12F158CC000AD6DB9 /* DiscoverHubTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		847561C02F158CC000AD6DB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		849DDDE72EE0B448008DD684 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +206,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		847561BE2F158CC000AD6DB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		849DDDE52EE0B448008DD684 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +222,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		847561C72F158CC000AD6DB9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 849DDDE82EE0B448008DD684 /* DiscoverHub */;
+			targetProxy = 847561C62F158CC000AD6DB9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		847561C92F158CC000AD6DB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6V3YS3272X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = CTem.DiscoverHubTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoverHub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DiscoverHub";
+			};
+			name = Debug;
+		};
+		847561CA2F158CC000AD6DB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6V3YS3272X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = CTem.DiscoverHubTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiscoverHub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DiscoverHub";
+			};
+			name = Release;
+		};
 		849DDDF22EE0B44A008DD684 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +453,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		847561C82F158CC000AD6DB9 /* Build configuration list for PBXNativeTarget "DiscoverHubTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				847561C92F158CC000AD6DB9 /* Debug */,
+				847561CA2F158CC000AD6DB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		849DDDE42EE0B448008DD684 /* Build configuration list for PBXProject "DiscoverHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -16,6 +16,11 @@ final class HomeViewModel: ObservableObject {
     @Published var currencyViewModel: CurrencyViewModel
     @Published var githubViewModel: GitHubViewModel
     
+    // Quick currency rates (1 USD to...)
+    @Published var cnyRate: String = "..."
+    @Published var gbpRate: String = "..."
+    @Published var jpyRate: String = "..."
+    
     // Overall loading state
     @Published var isLoading = true
     
@@ -56,6 +61,9 @@ final class HomeViewModel: ObservableObject {
         currencyViewModel.amount = "1"
         
         githubViewModel.refresh()
+        
+        // Load quick currency rates
+        loadQuickCurrencyRates()
     }
     
     func refresh() {
@@ -80,5 +88,40 @@ final class HomeViewModel: ObservableObject {
         weatherViewModel.weather != nil ||
         !githubViewModel.repositories.isEmpty ||
         currencyViewModel.convertedAmount != nil
+    }
+    
+    // MARK: - Quick Currency Rates
+    private func loadQuickCurrencyRates() {
+        let service = CurrencyService()
+        
+        // Fetch CNY rate
+        Task {
+            do {
+                let rate = try await service.convert(from: .USD, to: .CNY, amount: "1")
+                self.cnyRate = String(format: "%.2f", rate)
+            } catch {
+                self.cnyRate = "--"
+            }
+        }
+        
+        // Fetch GBP rate
+        Task {
+            do {
+                let rate = try await service.convert(from: .USD, to: .GBP, amount: "1")
+                self.gbpRate = String(format: "%.2f", rate)
+            } catch {
+                self.gbpRate = "--"
+            }
+        }
+        
+        // Fetch JPY rate
+        Task {
+            do {
+                let rate = try await service.convert(from: .USD, to: .JPY, amount: "1")
+                self.jpyRate = String(format: "%.2f", rate)
+            } catch {
+                self.jpyRate = "--"
+            }
+        }
     }
 }

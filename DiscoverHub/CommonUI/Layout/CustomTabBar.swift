@@ -54,6 +54,7 @@ struct CustomTabBar: View {
                             if selectedTab == tab {
                                 RoundedRectangle(cornerRadius: 22)
                                     .fill(AppColors.secondary.opacity(0.3))
+                                // moving animation handleing
                                     .matchedGeometryEffect(id: "TabHighlight", in: animation)
                             }
                         }
