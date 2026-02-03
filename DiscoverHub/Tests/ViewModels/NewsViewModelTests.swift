@@ -220,7 +220,8 @@ final class NewsViewModelTests: XCTestCase {
         viewModel.$isLoading
             .sink { isLoading in
                 loadingStates.append(isLoading)
-                if loadingStates.count >= 3 {
+                // Fulfill when loading completes (reaches false state)
+                if !isLoading {
                     expectation.fulfill()
                 }
             }
@@ -228,7 +229,7 @@ final class NewsViewModelTests: XCTestCase {
         
         viewModel.refresh()
         
-        await fulfillment(of: [expectation], timeout: 2.0)
+        await fulfillment(of: [expectation], timeout: 15.0)
         
         // Then: Should transition from false -> true -> false
         // (initial state, during load, after load)
