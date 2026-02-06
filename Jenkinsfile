@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         LC_ALL = 'en_US.UTF-8'
-        LANG = 'en_US.UTF-8'
+        LANG   = 'en_US.UTF-8'
+        PATH   = "/usr/local/opt/ruby/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     }
 
     stages {
@@ -13,19 +14,27 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Verify Ruby') {
             steps {
-                sh 'bundle exec fastlane ci || fastlane ci'
+                sh '''
+                  which ruby
+                  ruby -v
+                  which bundle
+                  bundle -v
+                '''
             }
         }
-    }
 
-    post {
-        success {
-            echo '✅ Build & Tests Passed'
+        stage('Install Gems') {
+            steps {
+                sh 'bundle install'
+            }
         }
-        failure {
-            echo '❌ Build or Tests Failed'
+
+        stage('Build & Test') {
+            steps {
+                sh 'bundle exec fastlane ci'
+            }
         }
     }
 }
