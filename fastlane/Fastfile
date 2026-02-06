@@ -24,5 +24,17 @@ platform :ios do
       clean: true
     )
   end
+  
+  lane :archive_only do
+  gym(
+    scheme: "DiscoverHub",
+    project: "DiscoverHub.xcodeproj",
+    configuration: "Release",
+    clean: true,
+    skip_package_ipa: true,
+    archive_path: "build/DiscoverHub.xcarchive"
+  )
+  end
+
 end
 

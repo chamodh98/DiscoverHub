@@ -36,5 +36,12 @@ pipeline {
                 sh 'bundle exec fastlane ci'
             }
         }
+
+        stage('Archive') {
+            steps {
+                sh 'bundle exec fastlane archive_only'
+            }
+        }
+
     }
 }

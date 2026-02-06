@@ -1,0 +1,7 @@
+Information 
+
+How pipeline works together: 
+	Jenkins  →  Fastlane  →  Xcode / xcodebuild / tests
+	- Jenkins says: “Run the CI pipeline”
+	- Fastlane says: “Here’s HOW to build and test an iOS app”
+	- Xcode does the actual work
