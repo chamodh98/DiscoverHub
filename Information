@@ -5,3 +5,42 @@ How pipeline works together:
 	- Jenkins says: “Run the CI pipeline”
 	- Fastlane says: “Here’s HOW to build and test an iOS app”
 	- Xcode does the actual work
+ 
+--------------------------------Setup--------------------------------
+ 
+Install Jenkins (local CI server)
+    brew install jenkins-lts
+    brew services start jenkins-lts
+    
+Install fastlane - sudo gem install fastlane
+Init fastlane in the project - fastlane init
+To test locally using fastlane run - fastlane ci
+
+Create Jenkins Pipeline Job
+    Start Jenkins - brew services start jenkins-lts
+    Jenkins UI - http://localhost:8080
+        New Item
+        Name: ios-ci
+        Type: Pipeline
+        Scroll → Pipeline section
+        Definition: Pipeline script from SCM
+        SCM: Git
+        Repo URL: https://github.com/chamodh98/DiscoverHub.git
+        Branch: master
+        Script Path: Jenkinsfile
+    Add Jenkinsfile (pipeline definition) - then commit and push
+    Trigger the pipeline
+        In Jenkins Open ios-ci Click Build Now
+    To find the Jenkins password run this command - cat ~/.jenkins/secrets/initialAdminPassword
+
+    
+Start Jenkins - brew services start jenkins-lts
+View Jenkins Dashboard - http://localhost:8080
+Shut down Jenkins - brew services stop jenkins-lts
+
+
+
+
+    
+
+
