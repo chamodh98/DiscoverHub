@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'fastlane ci'
+                sh 'bundle exec fastlane ci || fastlane ci'
             }
         }
     }
