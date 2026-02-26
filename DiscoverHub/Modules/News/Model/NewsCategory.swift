@@ -64,7 +64,7 @@ enum NewsCategory: String, CaseIterable {
     
     // Simple heuristic to determine category from article content
     static func detectCategory(from article: NewsArticle) -> NewsCategory {
-        let content = (article.title + " " + (article.description ?? "")).lowercased()
+        let content = (article.title).lowercased()
         
         if content.contains("tech") || content.contains("apple") || content.contains("google") || content.contains("ai") || content.contains("software") {
             return .technology
